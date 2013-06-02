@@ -1,0 +1,14 @@
+{
+    "name": "ekyoserver-d",
+    "description": "An example project skeleton",
+    "homepage": "http://example.org",
+    "copyright": "Copyright © 2013, Simon Kérouack",
+    "authors": [
+        "Simon Kérouack"
+    ],
+    "dependencies": {
+        "vibe-d": "~master",
+        "dyaml": "~master"
+    },
+    "versions": ["VibeCustomMain"]
+}
