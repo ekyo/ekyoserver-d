@@ -1,0 +1,5 @@
+# -*- mode: YAML; tab-width: 2; fill-column: 80; -*-
+
+logs:
+  console:
+    logLevel: Silly

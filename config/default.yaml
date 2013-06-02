@@ -1,0 +1,23 @@
+# -*- mode: YAML; tab-width: 2; fill-column: 80; -*-
+
+mongo:
+  host: ["localhost:27017"]
+  db: server
+  options: 
+    safe: true
+
+redis:
+  host: localhost
+  port: 6379
+    
+logs:
+  console:
+    silent: false
+  file:
+    silent: false
+    logLevel: Error
+    path: logs/log.txt
+  mongo:
+    silent: false
+    collection: logs
+    logLevel: Silly
