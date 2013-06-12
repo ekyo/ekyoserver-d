@@ -7,7 +7,7 @@
         "Simon Kérouack"
     ],
     "dependencies": {
-        "vibe-d": "~master",
+        "vibe-d": "0.7.15",
         "dyaml": "~master"
     },
     "versions": ["VibeCustomMain"]
