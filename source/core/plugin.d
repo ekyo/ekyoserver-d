@@ -6,7 +6,6 @@
 
    Authors: Simon Kérouack
 */
-
 module core.plugin;
 public import std.string, std.traits, std.functional, std.conv, std.exception;
 public import core.logger.logger, core.logger.named, core.logger.console;

@@ -21,3 +21,10 @@ logs:
     silent: false
     collection: logs
     logLevel: Silly
+
+email:
+  # Email used by the server to send mails
+  username: "user@host.com"
+  password: "ThisShouldNotBePlainText"
+
+  sendLogsTo: "someone@somewhere.com"
