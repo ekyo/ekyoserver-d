@@ -6,9 +6,8 @@
 
    Authors: Simon Kérouack
 */
-
 module core.daemon;
-public import std.parallelism, std.stdio;
+public import std.parallelism, std.stdio, std.signals;
 public import vibe.db.mongo.mongo, vibe.db.redis.redis, vibe.core.core;
 public import core.logger.console, core.logger.file, core.logger.mongo, core.plugin;
 import std.path;
@@ -30,16 +29,11 @@ class Daemon : Plugin {
   this(string[] args) {
     auto launchtime = Clock.currTime();
 
-    // Set Defaults
     setDefaults();
-
-    // Load config
     auto config = loadConfig();
 
-    // Parse args
     parseArgs(args);
 
-    // Setup logger adapter.
     auto logger = setupLogger(config);
 
     // Setup self
@@ -51,15 +45,14 @@ class Daemon : Plugin {
     // Setup distributed cache
     setupRedis(config);
 
-    // Setup all plugin with config
     foreach (PluginConstructor plugin; toLoad)
       plugin(logger, config);
 
-    // Init all plugins
     foreach (Plugin plugin; plugins)
       plugin.init();
 
     // Send the 'ready' event. - cue for generators to output.
+    emit("ready");
 
     // For each Plugin
     // - run unit tests
@@ -81,11 +74,14 @@ class Daemon : Plugin {
     // - exit == true (set by other plugins to force a clean exit)
   }
 
+  // Events that should be received by all plugins/services go trough here
+  mixin std.signals.Signal!(string);
+
   void setDefaults() {
-    setLogLevel(vibe.core.log.LogLevel.None);
+    setLogLevel(vibe.core.log.LogLevel.None); // vibe log level
     configPath = "config";
     configFiles = ["dev", "default"];
-    defaultLogLevel = core.logger.logger.LogLevel.Info;
+    defaultLogLevel = core.logger.logger.LogLevel.Silly;
   }
 
   Config loadConfig() {
@@ -226,7 +222,7 @@ class Daemon : Plugin {
     ushort redisPort = config.tryGet!(ushort)(6379,
                                               this.name, "redis", "port");
     Silly(format("Connecting to redis at %s:%s", redisHost, redisPort));
-    _redis = new RedisConnection();
+    _redis = new RedisClient();
     _redis.connect(redisHost, redisPort);
   }
 
@@ -245,7 +241,7 @@ class Daemon : Plugin {
 
   SysTime bootTime;
   MongoClient _mongoDB;
-  RedisConnection _redis;
+  RedisClient _redis;
   core.logger.file.FileLogger fileLogger;
   ConsoleLogger consoleLogger;
   MongoLogger mongoLogger;
