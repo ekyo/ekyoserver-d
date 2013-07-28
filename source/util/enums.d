@@ -76,7 +76,7 @@ class Enum(T) {
     return opCall(name);
   }
 
-  string toString() {
+  override string toString() {
     string str;
     foreach(k, v; _values)
       str ~= format("%s: %s\n", k, v);
