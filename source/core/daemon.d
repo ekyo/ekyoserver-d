@@ -52,13 +52,14 @@ class Daemon : Plugin {
       plugin.init();
 
     // Send the 'ready' event. - cue for generators to output.
+    Silly("Sending 'ready' event");
     emit("ready");
 
     // For each Plugin
     // - run unit tests
     // - adjust minimum version.
 
-    displayLogo();
+    //displayLogo();
 
     Silly(format("CPU cores available: %s", totalCPUs));
     // Output the boot sequence duration.
@@ -221,9 +222,8 @@ class Daemon : Plugin {
                                               this.name, "redis", "host");
     ushort redisPort = config.tryGet!(ushort)(6379,
                                               this.name, "redis", "port");
-    Silly(format("Connecting to redis at %s:%s", redisHost, redisPort));
-    _redis = new RedisClient();
-    _redis.connect(redisHost, redisPort);
+    Debug(format("Connecting to redis at %s:%s", redisHost, redisPort));
+    _redis = new RedisClient(redisHost, redisPort);
   }
 
   void displayLogo() {

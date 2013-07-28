@@ -13,15 +13,15 @@ class EmailPlugin : Plugin {
   mixin PluginMixin;
 
   public {
-    override void setup(Config conf) {
+    override void setup(Config config) {
       _settings = new SmtpClientSettings("smtp.googlemail.com", 25);
       _settings.connectionType = SmtpConnectionType.StartTLS;
       _settings.authType = SmtpAuthType.Plain;
 
-      _settings.username = conf.tryGet!string(this.name, "username");
-      _settings.password = conf.tryGet!string(this.name, "password");
+      _settings.username = config.tryGet!string(this.name, "username");
+      _settings.password = config.tryGet!string(this.name, "password");
 
-      _logEmail = conf.tryGet!string(this.name, "sendLogsTo");
+      _logEmail = config.tryGet!string(this.name, "sendLogsTo");
       //(cast(LoggerAdapter)logger).register("Email", &log, LogLevel.Error);
     }
 

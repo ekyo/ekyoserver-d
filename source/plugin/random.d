@@ -13,7 +13,7 @@ class RandomPlugin : Plugin {
   mixin PluginMixin;
 
   public {
-    override void setup(Config conf) {
+    override void setup(Config config) {
       _rand = new MerseneTwisterRandom();
     }
 
